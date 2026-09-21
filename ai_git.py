@@ -103,6 +103,20 @@ def box(argv):
     return subprocess.call(["gh", "repo", "create", name, vis, "--source", ".", "--remote", "origin", "--push"])
 
 
+def push_and_sync_main():
+    """push 후 다른 브랜치라면 원격 main도 같은 커밋으로 맞춘다(fast-forward만)."""
+    rc = subprocess.call(["git", "push"])
+    if rc != 0:
+        return rc
+    cur = subprocess.run(["git", "branch", "--show-current"], capture_output=True, text=True).stdout.strip()
+    if cur and cur != "main":
+        gen.info(f"원격 main을 '{cur}' 최신 상태로 갱신합니다.")
+        rc = subprocess.call(["git", "push", "origin", "HEAD:main"])
+        if rc != 0:
+            gen.error("main 갱신 실패(main에 다른 커밋이 있음). `ai-gitgen pull origin main` 후 다시 push하세요.")
+    return rc
+
+
 def main():
     argv = sys.argv[1:]
     if argv and argv[0] == "box":
@@ -111,6 +125,8 @@ def main():
         except gen.GenError as e:
             gen.error(str(e))
             return 1
+    if argv == ["push"]:
+        return push_and_sync_main()
     if not argv or argv[0] not in ("commit", "pr"):
         return passthrough(argv)
     p = argparse.ArgumentParser(add_help=False)
