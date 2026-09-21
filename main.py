@@ -134,7 +134,21 @@ def ensure_model_allowed(model: str):
         raise GenError(f"'{model}' 모델은 과금될 수 있어 사용할 수 없습니다. {ALLOWED_MODEL}만 허용됩니다.")
 
 
+def load_dotenv():
+    """스크립트 폴더의 .env에서 키를 읽는다(이미 설정된 환경변수가 우선)."""
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env")
+    if not os.path.exists(path):
+        return
+    for line in open(path, encoding="utf-8"):
+        line = line.strip()
+        if line and not line.startswith("#") and "=" in line:
+            k, v = line.split("=", 1)
+            if v.strip():
+                os.environ.setdefault(k.strip(), v.strip().strip(""'"))
+
+
 def get_api_key() -> str:
+    load_dotenv()
     for name in KEY_ENVS:
         v = os.environ.get(name, "").strip()
         if v:
