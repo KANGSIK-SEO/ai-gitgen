@@ -144,7 +144,7 @@ def load_dotenv():
         if line and not line.startswith("#") and "=" in line:
             k, v = line.split("=", 1)
             if v.strip():
-                os.environ.setdefault(k.strip(), v.strip().strip(""'"))
+                os.environ.setdefault(k.strip(), v.strip().strip("'\""))
 
 
 def get_api_key() -> str:
