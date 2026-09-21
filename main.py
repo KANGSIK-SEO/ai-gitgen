@@ -135,7 +135,7 @@ def ensure_model_allowed(model: str):
     if model != ALLOWED_MODEL:
         raise GenError(f"'{model}' 모델은 과금될 수 있어 사용할 수 없습니다. {ALLOWED_MODEL}만 허용됩니다.")
 
-
+# sdljf
 def load_dotenv():
     """스크립트 폴더 또는 ~/Desktop/.env에서 키를 읽는다(이미 설정된 환경변수가 우선)."""
     paths = [os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env"),
