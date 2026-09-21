@@ -3,7 +3,7 @@ sys.path.insert(0, str(pathlib.Path(__file__).parent.parent))
 from datetime import datetime, timezone
 import pytest
 import main
-
+# 123
 
 def test_mask():
     t = "key=sk-abcdefghijklmnopqrst a@b.com 010-1234-5678 password = hunter2222"
@@ -44,3 +44,8 @@ def test_expiry(monkeypatch):
     monkeypatch.setattr(main, "datetime", FakeDT)
     with pytest.raises(main.GenError):
         main.ensure_model_allowed("solar-pro3")
+
+
+def test_commit_blank_line_and_trailing_spaces():
+    out = main.fix_commit("feat: 제목  \n- 하나  \n- 둘  ")
+    assert out == "feat: 제목\n\n- 하나\n- 둘"

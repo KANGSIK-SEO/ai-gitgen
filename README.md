@@ -12,7 +12,7 @@ git clone <this-repo> && cd ai-gitgen
 ```bash
 export UPSTAGE_API_KEY="YOUR_KEY"   # AI_API_KEY도 인식
 ```
-코드/리포지토리에 키를 넣지 마세요(`.env`는 `.gitignore` 처리됨).
+또는 `~/Desktop/.env`(또는 이 폴더의 `.env`)에 `UPSTAGE_API_KEY=YOUR_KEY` 한 줄을 넣으면 자동으로 읽습니다(환경변수가 우선). 코드/리포지토리에 키를 넣지 마세요(`.env`는 `.gitignore` 처리됨).
 
 ## 사용법
 분석 대상 Git 프로젝트 **루트**에서 실행합니다.
@@ -30,6 +30,13 @@ python main.py commit --safe-mode --temperature 0.2 --max-tokens 400
 | `--max-files` / `--max-lines` | 10 / 200 | safe-mode 전송 상한 |
 | `--note` | - | 변경 이유/요구사항 컨텍스트 |
 | `--no-retry` | off | 검증 실패 시 재생성 없이 후처리만 |
+
+### 짧은 명령어 (선택)
+```bash
+ln -s "$PWD/main.py" ~/bin/gitgen        # gitgen commit / gitgen pr (초안 출력 전용)
+ln -s "$PWD/ai_git.py" ~/bin/ai-gitgen   # ai-gitgen <모든 git 명령>
+```
+`ai-gitgen commit`은 메시지 생성 후 `[y/N]` 확인을 거쳐 `add -A` + 로컬 커밋을 하고, `ai-gitgen pr`은 초안 출력, 그 외(`status`, `diff`, `push` …)는 그대로 git에 위임합니다. `main.py` 본체는 과제 범위대로 초안 출력만 합니다.
 
 ## 출력 예시
 ```

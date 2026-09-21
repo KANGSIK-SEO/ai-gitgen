@@ -229,9 +229,10 @@ def trunc(s: str, n: int) -> str:
 
 
 def fix_commit(msg: str) -> str:
-    lines = msg.splitlines() or [""]
-    lines[0] = trunc(lines[0], COMMIT_TITLE_MAX)
-    return "\n".join(lines)
+    lines = [l.rstrip() for l in msg.splitlines()] or [""]
+    title = trunc(lines[0], COMMIT_TITLE_MAX)
+    body = "\n".join(lines[1:]).strip()
+    return f"{title}\n\n{body}" if body else title
 
 
 def fix_pr(title: str, body: str):
