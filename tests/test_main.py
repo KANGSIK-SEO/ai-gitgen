@@ -3,7 +3,7 @@ sys.path.insert(0, str(pathlib.Path(__file__).parent.parent))
 from datetime import datetime, timezone
 import pytest
 import main
-# 12
+# 1
 
 def test_mask():
     t = "key=sk-abcdefghijklmnopqrst a@b.com 010-1234-5678 password = hunter2222"
