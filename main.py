@@ -5,7 +5,7 @@ git status / git diff 결과만 수집해 AI API를 1회 호출하고 초안을 
 git push, PR 생성 같은 원격 반영은 하지 않는다.
 """
 from __future__ import annotations
-
+# 12345
 import argparse
 import json
 import os
